@@ -83,10 +83,10 @@ Your original files are never modified, and the script never reads or writes out
 Your Steam save folder is:
 
 ```
-%USERPROFILE%\AppData\LocalLow\<Developer>\<Game>\<your SteamID64>\
+%USERPROFILE%\AppData\LocalLow\GeometricInteractive\Cocoon\<your SteamID64>\
 ```
 
-(`<Developer>` and `<Game>` are the names Unity uses for the game; the last folder is a long number.)
+(the last folder is a long number.)
 
 1. **Back up** the files already in that folder.
 2. Copy the two files from `output-<timestamp>/` into it, replacing the existing ones. Keep the exact names.
