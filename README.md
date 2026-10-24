@@ -18,8 +18,8 @@ On Steam the game also compares the save's `buildVersion` with its own version. 
 
 ## What you need
 
-- **Python 3.8+** ([python.org](https://www.python.org/downloads/))
-- The `pycryptodome` library: `pip install pycryptodome`
+- **Python 3.8+** ([python.org](https://www.python.org/downloads/)). In the installer, **tick "Add python.exe to PATH"** on the first screen, otherwise the commands below won't work.
+- The `pycryptodome` library (installed in the "First-time setup" below)
 - Your two **Game Pass save files** (random names, no extension): one is the progress save, the other is the settings save. The script tells them apart by their contents.
 - The **build version** of your Steam install (step 1 below).
 - The game opened **at least once on Steam**, so its save folder exists.
@@ -55,15 +55,36 @@ Paste that path into the Windows Explorer address bar. Inside you will find sub-
 
 ### 4. Run the script
 
-```
-python cocoon_save_converter.py
-```
+#### First-time setup (only once)
 
-or, passing the version directly:
+1. **Open a terminal** (Command Prompt or PowerShell). The easiest way: press `Win + R`, type `cmd` and press Enter.
+2. Check that Python is installed:
+   ```
+   python --version
+   ```
+   It should print something like `Python 3.12.x`. If Windows says "python is not recognized", try `py --version`; if that works, use `py` instead of `python` in every command below. If neither works, reinstall Python and tick "Add python.exe to PATH".
+3. Install the library:
+   ```
+   pip install pycryptodome
+   ```
+   (or `py -m pip install pycryptodome`).
 
-```
-python cocoon_save_converter.py --build universe-2023-09-27-142621-r22586-WIN
-```
+> Use a normal terminal. Do **not** type these commands into the Python interactive shell (the window with `>>>`) or IDLE.
+
+#### Running it
+
+1. **Open a terminal inside the script's folder.** Open the folder in Windows Explorer, click the address bar, type `cmd` and press Enter. A terminal opens already in that folder. (Alternatively, in the terminal use `cd "C:\path\to\the\folder"`.)
+2. Run:
+   ```
+   python cocoon_save_converter.py
+   ```
+   The script asks for the build version when it needs it.
+
+   Or pass the version directly:
+   ```
+   python cocoon_save_converter.py --build universe-2023-09-27-142621-r22586-WIN
+   ```
+3. *Alternative:* double-clicking `cocoon_save_converter.py` also works if Python is installed. A window opens, asks for the build version and stays open until you press Enter, so you can read the result.
 
 The script will:
 
@@ -86,7 +107,7 @@ Your Steam save folder is:
 %USERPROFILE%\AppData\LocalLow\GeometricInteractive\Cocoon\<your SteamID64>\
 ```
 
-(the last folder is a long number.)
+(`<Developer>` and `<Game>` are the names Unity uses for the game; the last folder is a long number.)
 
 1. **Back up** the files already in that folder.
 2. Copy the two files from `output-<timestamp>/` into it, replacing the existing ones. Keep the exact names.
@@ -95,6 +116,9 @@ Your Steam save folder is:
 ## Troubleshooting
 
 - **The game starts a new game / ignores the save:** the `buildVersion` doesn't match your install. Re-check step 1 (the value stored in a save created by the game itself is the one that counts).
+- **"python is not recognized" / "pip is not recognized":** Python isn't on your PATH. Try `py` instead of `python` (and `py -m pip` instead of `pip`), or reinstall Python with "Add python.exe to PATH" ticked.
+- **"Missing library 'pycryptodome'":** run `pip install pycryptodome` again, using the same Python you use to run the script.
+- **The window closes immediately when double-clicking:** run the script from a terminal instead, as shown above, so you can read any error message.
 - **"No Game Pass progress save found":** the files aren't in the script's folder, or the progress file you copied isn't the real save.
 - **"Already encrypted (Steam format)":** the progress file in the folder is a Steam save; this tool only converts Game Pass → Steam.
 - **Save reverted after launching:** Steam Cloud overwrote it. Disable it and copy the files again.
@@ -115,7 +139,6 @@ Your Steam save folder is:
 ## Limitations
 
 - **Steam → Game Pass is not supported.**
-- Tested only with simulated save files on Linux. Not verified on Windows against every release of the game.
 - Requires Python; there is no standalone `.exe`.
 
 ---
